@@ -1,0 +1,242 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="info.androidhive.materialtabs.fragments.TwoFragment">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Health Summary"
+        android:id="@+id/textView11"
+        android:layout_above="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:textSize="30dp" />
+
+
+
+    <ProgressBar
+        android:id="@+id/StepProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="300sp"
+        android:layout_height="30sp"
+        android:indeterminate="false"
+
+        android:minHeight="100dip"
+        android:minWidth="200dip"
+        android:progress="@android:integer/config_mediumAnimTime"
+        android:progressBackgroundTint="#53f3db"
+        android:progressTint="#c44a4a"
+        android:secondaryProgress="@android:integer/config_shortAnimTime"
+        android:theme="@style/Base.Animation.AppCompat.DropDownUp"
+        android:maxHeight="50dp"
+        android:layout_marginTop="160dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="80dip"
+        android:layout_height="80dip"
+        android:id="@+id/imageView"
+        android:layout_marginBottom="25dp"
+        android:src="@drawable/steps"
+        android:layout_alignBottom="@+id/StepProgress"
+        android:layout_alignLeft="@+id/StepProgress"
+        android:layout_alignStart="@+id/StepProgress" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="2000"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/steps"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_toEndOf="@+id/imageView" />
+
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Steps"
+        android:layout_marginLeft="2dp"
+        android:id="@+id/textView4"
+        android:layout_alignTop="@+id/steps"
+        android:layout_toRightOf="@+id/steps"
+        android:layout_toEndOf="@+id/steps" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:id="@+id/mileProgress"
+        android:layout_width="300sp"
+        android:layout_height="30sp"
+        android:indeterminate="false"
+        android:minHeight="100dip"
+        android:minWidth="200dip"
+        android:progress="@android:integer/config_mediumAnimTime"
+        android:progressBackgroundTint="#53f3db"
+        android:progressTint="#c44a4a"
+        android:secondaryProgress="@android:integer/config_shortAnimTime"
+        android:theme="@style/Base.Animation.AppCompat.DropDownUp"
+        android:maxHeight="50dp"
+
+        android:layout_below="@+id/StepProgress"
+        android:layout_alignLeft="@+id/StepProgress"
+        android:layout_alignStart="@+id/StepProgress"
+        android:layout_marginTop="80dp" />
+
+    <ImageView
+        android:layout_width="80dip"
+        android:layout_height="80dip"
+        android:id="@+id/imageView2"
+        android:src="@drawable/miles"
+        android:layout_marginBottom="30dp"
+        android:layout_alignBottom="@+id/mileProgress"
+        android:layout_alignLeft="@+id/mileProgress"
+        android:layout_alignStart="@+id/mileProgress" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="150"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/miles"
+        android:layout_alignBottom="@+id/imageView2"
+        android:layout_toRightOf="@+id/imageView2"
+        android:layout_toEndOf="@+id/imageView2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="miles"
+        android:layout_marginLeft="2dp"
+        android:id="@+id/textView6"
+        android:layout_alignTop="@+id/miles"
+        android:layout_toRightOf="@+id/miles"
+        android:layout_toEndOf="@+id/miles" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:id="@+id/progressBar3"
+        android:layout_width="300sp"
+        android:layout_height="30sp"
+        android:indeterminate="false"
+        android:minHeight="100dip"
+        android:minWidth="200dip"
+        android:progress="@android:integer/config_mediumAnimTime"
+        android:progressBackgroundTint="#53f3db"
+        android:progressTint="#c44a4a"
+        android:secondaryProgress="@android:integer/config_shortAnimTime"
+        android:theme="@style/Base.Animation.AppCompat.DropDownUp"
+        android:maxHeight="50dp"
+
+        android:layout_below="@+id/mileProgress"
+        android:layout_alignLeft="@+id/mileProgress"
+        android:layout_alignStart="@+id/mileProgress"
+        android:layout_marginTop="80dp" />
+
+    <ImageView
+        android:layout_width="80dip"
+        android:layout_height="80dip"
+        android:id="@+id/imageView3"
+        android:src="@drawable/burn"
+        android:layout_marginBottom="30dp"
+        android:layout_alignBottom="@+id/progressBar3"
+        android:layout_alignLeft="@+id/progressBar3"
+        android:layout_alignStart="@+id/progressBar3" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="2010"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/calories"
+        android:layout_alignBottom="@+id/imageView3"
+        android:layout_toRightOf="@+id/imageView3"
+        android:layout_toEndOf="@+id/imageView3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Calories Burnt"
+        android:layout_marginLeft="2dp"
+        android:id="@+id/textView8"
+        android:layout_alignTop="@+id/calories"
+        android:layout_toRightOf="@+id/calories"
+        android:layout_toEndOf="@+id/calories" />
+
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:id="@+id/progressBar4"
+        android:layout_width="300sp"
+        android:layout_height="30sp"
+        android:indeterminate="false"
+        android:minHeight="100dip"
+        android:minWidth="200dip"
+        android:progress="@android:integer/config_mediumAnimTime"
+        android:progressBackgroundTint="#53f3db"
+        android:progressTint="#c44a4a"
+        android:secondaryProgress="@android:integer/config_shortAnimTime"
+        android:theme="@style/Base.Animation.AppCompat.DropDownUp"
+        android:maxHeight="50dp"
+
+        android:layout_below="@+id/progressBar3"
+        android:layout_alignLeft="@+id/progressBar3"
+        android:layout_alignStart="@+id/progressBar3"
+        android:layout_marginTop="80dp" />
+
+    <ImageView
+        android:layout_width="80dip"
+        android:layout_height="80dip"
+        android:id="@+id/imageView4"
+        android:src="@drawable/time"
+        android:layout_marginBottom="30dp"
+        android:layout_alignBottom="@+id/progressBar4"
+        android:layout_alignLeft="@+id/progressBar4"
+        android:layout_alignStart="@+id/progressBar4" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="570"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/minutes"
+        android:layout_alignBottom="@+id/imageView4"
+        android:layout_toRightOf="@+id/imageView4"
+        android:layout_toEndOf="@+id/imageView4" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="minutes"
+        android:layout_marginLeft="2dp"
+        android:id="@+id/textView10"
+        android:layout_alignTop="@+id/minutes"
+        android:layout_toRightOf="@+id/minutes"
+        android:layout_toEndOf="@+id/minutes" />
+
+
+
+
+</RelativeLayout>
