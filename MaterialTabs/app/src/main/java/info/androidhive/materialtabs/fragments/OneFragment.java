@@ -1,13 +1,20 @@
 package info.androidhive.materialtabs.fragments;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.app.NotificationCompat;
+import android.telephony.SmsManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,14 +37,19 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import info.androidhive.materialtabs.R;
+import info.androidhive.materialtabs.activity.CustomViewIconTextTabsActivity;
 
 
 public class OneFragment extends Fragment{
 
     public static final String MyPREFERENCES = "TokenStore" ;
     TextView statusActivity;
+    public Vibrator vibrator;
+    private Timer autoUpdate;
 
     static int temperature=0,cal=0;
 
@@ -48,6 +60,9 @@ public class OneFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
     }
 
     @Override
@@ -61,34 +76,26 @@ public class OneFragment extends Fragment{
     }
 
     @Override
-    public void onResume() {
+    public void onResume()  {
         super.onResume();
 
-        new getHeartRate().execute();
+        autoUpdate = new Timer();
+        autoUpdate.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        new getHeartRate().execute();
+                    }
+                });
+            }
+                    },0,60000*2);
 
-        statusActivity=(TextView)getView().findViewById(R.id.activity);
-        if(cal>13)
-        {
-            statusActivity.setText("Running");
-        }
-        else
-        {
-            statusActivity.setText("Resting");
-        }
 
-System.out.println("temp"+temperature);
-        PieChart mPieChart = (PieChart)getView().findViewById(R.id.piechart);
-        if(temperature<70) {
-            mPieChart.addPieSlice(new PieModel("HeartRate", temperature, Color.parseColor("#FE6DA8")));
-            mPieChart.addPieSlice(new PieModel("HeartRate", 50, Color.parseColor("#56B7F1")));
-        }
-        else
-        {
-            mPieChart.addPieSlice(new PieModel("HeartRate", temperature, Color.parseColor("#d66515")));
 
-        }
-        mPieChart.startAnimation();
+
     }
+
 
 
 
@@ -109,43 +116,37 @@ System.out.println("temp"+temperature);
 
             HttpClient httpclient = new DefaultHttpClient();
             HttpGet httpGet = new HttpGet("https://api.fitbit.com/1/user/-/activities/heart/date/2016-05-02/1d/1min/time/" + currentTime + "/" + currentTime + ".json");
-            HttpGet httpGet1 = new HttpGet("https://api.fitbit.com/1/user/-/activities/calories/date/2016-05-02/1d/1min/time/" + currentTime + "/" + currentTime + ".json");
 
 // Add Headers
             httpGet.addHeader("Authorization", code);
-            httpGet1.addHeader("Authorization", code);
-            //  httpGet.addHeader("key2", "value2");
+
 
             try {
-                // Add your data
-                //  List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-                // nameValuePairs.add(new BasicNameValuePair("content", ""));
-                // httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                // Execute HTTP Post Request
+
                 HttpResponse response = httpclient.execute(httpGet);
-                HttpResponse response1 = httpclient.execute(httpGet1);
+
 
                 HttpEntity entity = response.getEntity();
-                HttpEntity entity1 = response1.getEntity();
+
                 String responseString = EntityUtils.toString(entity, "UTF-8");
-                String responseString1 = EntityUtils.toString(entity1, "UTF-8");
-                System.out.println(responseString);
-                System.out.println(responseString1);
+
+                System.out.println("rrr"+responseString);
+
 
                 JSONObject HeartRate = new JSONObject(responseString);
-                JSONObject calorieRate = new JSONObject(responseString1);
+
 
                 JSONObject IntraRate = HeartRate.getJSONObject("activities-heart-intraday");
-                JSONObject IntraRateCal = calorieRate.getJSONObject("activities-calories-intraday");
+
 
                 JSONArray data = IntraRate.getJSONArray("dataset");
-                JSONArray data1 = IntraRateCal.getJSONArray("dataset");
+
 
                 JSONObject value = data.getJSONObject(0);
-                JSONObject valueCal = data1.getJSONObject(0);
 
-                System.out.println("value" + value.getString("value"));
-                System.out.println("valueCal" + valueCal.getString("value"));
+
+                System.out.println("valueHeart" + value.getString("value"));
+
 
                 Context context1 = getActivity();
                 SharedPreferences sp1 = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
@@ -156,14 +157,83 @@ System.out.println("temp"+temperature);
                 editor.commit();
 
                 temperature=Integer.parseInt(value.getString("value"));
-                cal=Integer.parseInt(valueCal.getString("value"));
 
 
+                HttpGet httpGet1 = new HttpGet("https://api.fitbit.com/1/user/-/activities/calories/date/2016-05-02/1d/1min/time/" + currentTime + "/" + currentTime + ".json");
+                 httpGet1.addHeader("Authorization", code);
+                  httpGet.addHeader("key2", "value2");
+                   HttpResponse response1 = httpclient.execute(httpGet1);
+                  HttpEntity entity1 = response1.getEntity();
+                 String responseString1 = EntityUtils.toString(entity1, "UTF-8");
+                  System.out.println(responseString1);
+                   JSONObject calorieRate = new JSONObject(responseString1);
+                  JSONObject IntraRateCal = calorieRate.getJSONObject("activities-calories-intraday");
+                 JSONArray data1 = IntraRateCal.getJSONArray("dataset");
+                 JSONObject valueCal = data1.getJSONObject(0);
+                 System.out.println("valueCal" + (int)Float.parseFloat(valueCal.getString("value")));
+                   cal=(int)Float.parseFloat(valueCal.getString("value"));
             } catch (Exception e) {
 // TODO Auto-generated catch block
             }
 
             return null;
+        }
+
+       @Override
+        protected void onPostExecute(Void v) {
+
+            statusActivity=(TextView)getView().findViewById(R.id.activity);
+            if(cal>12)
+            {
+                statusActivity.setText("Running");
+            }
+            else
+            {
+                statusActivity.setText("Resting");
+            }
+
+            System.out.println("temp"+temperature);
+            PieChart mPieChart = (PieChart)getView().findViewById(R.id.piechart);
+            if(temperature<70) {
+                mPieChart.addPieSlice(new PieModel("HeartRate", temperature, Color.parseColor("#FE6DA8")));
+                mPieChart.addPieSlice(new PieModel("HeartRate", 50, Color.parseColor("#56B7F1")));
+            }
+            else {
+
+                mPieChart.addPieSlice(new PieModel("HeartRate", temperature, Color.parseColor("#d66515")));
+                mPieChart.startAnimation();
+            }
+
+            if(temperature>70)
+            {
+
+                try {
+                    SmsManager sms = SmsManager.getDefault();  // using android SmsManager
+                    sms.sendTextMessage("6504305478", null, "Heart Rate exceeded", null, null);
+                }
+                catch (Exception e)
+                {
+
+                }
+
+                long pattern[] = { 0, 100, 200, 300, 400 };
+                vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                vibrator.vibrate(pattern, 0);
+
+                NotificationCompat.Builder mBuilder =
+                        new NotificationCompat.Builder(getActivity())
+                                .setContentTitle("My notification")
+                                .setContentText("Heart Limit exceeded");
+
+
+                NotificationManager mNotifyMgr =
+                        (NotificationManager)getActivity().getSystemService(getContext().NOTIFICATION_SERVICE);
+// Builds the notification and issues it.
+                mNotifyMgr.notify(001, mBuilder.build());
+
+            }
+
+
         }
     }
 

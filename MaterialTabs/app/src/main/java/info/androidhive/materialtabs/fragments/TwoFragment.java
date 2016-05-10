@@ -26,6 +26,8 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import info.androidhive.materialtabs.R;
 
@@ -33,6 +35,7 @@ import info.androidhive.materialtabs.R;
 public class TwoFragment extends Fragment{
     public static final String MyPREFERENCES = "TokenStore" ;
 
+    private Timer autoUpdate;
     static int temperature=0,calorie=0,step=0,min=0;
     static int mile=0;
     static int progressCal=56,progressStep=76,progressMin=34,progressMile=45;
@@ -53,7 +56,8 @@ public class TwoFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new getHeartRate().execute();
+
+
 
     }
 
@@ -79,148 +83,22 @@ public class TwoFragment extends Fragment{
       //  miles.setText(""+mile);
 
 
-
-        ValueAnimator animator = new ValueAnimator();
-        animator.setObjectValues(0,step);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            public void onAnimationUpdate(ValueAnimator animation) {
-                steps.setText(String.valueOf(animation.getAnimatedValue()));
-            }
-        });
-        animator.setEvaluator(new TypeEvaluator<Integer>() {
-            public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
-                return Math.round(startValue + (endValue - startValue) * fraction);
-            }
-        });
-        animator.setDuration(3000);
-        animator.start();
-
-        ValueAnimator animator1 = new ValueAnimator();
-        animator1.setObjectValues(0,calorie);
-        animator1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            public void onAnimationUpdate(ValueAnimator animation) {
-                calories.setText(String.valueOf(animation.getAnimatedValue()));
-            }
-        });
-        animator1.setEvaluator(new TypeEvaluator<Integer>() {
-            public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
-                return Math.round(startValue + (endValue - startValue) * fraction);
-            }
-        });
-        animator1.setDuration(3000);
-        animator1.start();
-
-        ValueAnimator animator2 = new ValueAnimator();
-        animator2.setObjectValues(0,min);
-        animator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            public void onAnimationUpdate(ValueAnimator animation) {
-                mins.setText(String.valueOf(animation.getAnimatedValue()));
-            }
-        });
-        animator2.setEvaluator(new TypeEvaluator<Integer>() {
-            public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
-                return Math.round(startValue + (endValue - startValue) * fraction);
-            }
-        });
-        animator2.setDuration(3000);
-        animator2.start();
-
-        ValueAnimator animator3 = new ValueAnimator();
-        animator3.setObjectValues(0,mile);
-        animator3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            public void onAnimationUpdate(ValueAnimator animation) {
-                miles.setText(String.valueOf(animation.getAnimatedValue()));
-            }
-        });
-        animator3.setEvaluator(new TypeEvaluator<Integer>() {
-            public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
-                return Math.round(startValue + (endValue - startValue) * fraction);
-            }
-        });
-        animator3.setDuration(3000);
-        animator3.start();
-
-
-        progressBarMile = (ProgressBar) getView().findViewById(R.id.mileProgress);
-        progressBarMin = (ProgressBar) getView().findViewById(R.id.progressBar4);
-        progressBarStep = (ProgressBar) getView().findViewById(R.id.StepProgress);
-        progressBarCal = (ProgressBar) getView().findViewById(R.id.progressBar3);
-
-
-        // Start long running operation in a background thread
-        new Thread(new Runnable() {
+        autoUpdate = new Timer();
+        autoUpdate.schedule(new TimerTask() {
+            @Override
             public void run() {
-                while (progressStatus < progressMile) {
-                    progressStatus += 1;
-                    handler.post(new Runnable() {
-                        public void run() {
-                            progressBarMile.setProgress(progressStatus);
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
 
-                        }
-                    });
-                    try {
-                        Thread.sleep(400);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        new getHeartRate().execute();
                     }
-                }
+                });
             }
-        }).start();
+        }, 0, 60000*2);//timer for 3 min
 
-        new Thread(new Runnable() {
-            public void run() {
-                while (progressStatus < progressMin) {
-                    progressStatus += 1;
-                    handler.post(new Runnable() {
-                        public void run() {
-                            progressBarMin.setProgress(progressStatus);
 
-                        }
-                    });
-                    try {
-                        Thread.sleep(400);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-        new Thread(new Runnable() {
-            public void run() {
-                while (progressStatus < progressCal) {
-                    progressStatus += 1;
-                    handler.post(new Runnable() {
-                        public void run() {
-                            progressBarCal.setProgress(progressStatus);
 
-                        }
-                    });
-                    try {
-                        Thread.sleep(400);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-        new Thread(new Runnable() {
-            public void run() {
-                while (progressStatus < progressStep) {
-                    progressStatus += 1;
-                    handler.post(new Runnable() {
-                        public void run() {
-                            progressBarStep.setProgress(progressStatus);
 
-                        }
-                    });
-                    try {
-                        Thread.sleep(400);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
     }
 
     class getHeartRate extends AsyncTask<Void, Void, Void> {
@@ -337,6 +215,154 @@ public class TwoFragment extends Fragment{
             }
 
             return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Void v) {
+
+            ValueAnimator animator = new ValueAnimator();
+            animator.setObjectValues(0,step);
+            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    steps.setText(String.valueOf(animation.getAnimatedValue()));
+                }
+            });
+            animator.setEvaluator(new TypeEvaluator<Integer>() {
+                public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
+                    return Math.round(startValue + (endValue - startValue) * fraction);
+                }
+            });
+            animator.setDuration(3000);
+            animator.start();
+
+            ValueAnimator animator1 = new ValueAnimator();
+            animator1.setObjectValues(0,calorie);
+            animator1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    calories.setText(String.valueOf(animation.getAnimatedValue()));
+                }
+            });
+            animator1.setEvaluator(new TypeEvaluator<Integer>() {
+                public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
+                    return Math.round(startValue + (endValue - startValue) * fraction);
+                }
+            });
+            animator1.setDuration(3000);
+            animator1.start();
+
+            ValueAnimator animator2 = new ValueAnimator();
+            animator2.setObjectValues(0,min);
+            animator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    mins.setText(String.valueOf(animation.getAnimatedValue()));
+                }
+            });
+            animator2.setEvaluator(new TypeEvaluator<Integer>() {
+                public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
+                    return Math.round(startValue + (endValue - startValue) * fraction);
+                }
+            });
+            animator2.setDuration(3000);
+            animator2.start();
+
+            ValueAnimator animator3 = new ValueAnimator();
+            animator3.setObjectValues(0,mile);
+            animator3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    miles.setText(String.valueOf(animation.getAnimatedValue()));
+                }
+            });
+            animator3.setEvaluator(new TypeEvaluator<Integer>() {
+                public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
+                    return Math.round(startValue + (endValue - startValue) * fraction);
+                }
+            });
+            animator3.setDuration(3000);
+            animator3.start();
+
+
+            progressBarMile = (ProgressBar) getView().findViewById(R.id.mileProgress);
+            progressBarMin = (ProgressBar) getView().findViewById(R.id.progressBar4);
+            progressBarStep = (ProgressBar) getView().findViewById(R.id.StepProgress);
+            progressBarCal = (ProgressBar) getView().findViewById(R.id.progressBar3);
+
+
+            // Start long running operation in a background thread
+            new Thread(new Runnable() {
+                public void run() {
+                    while (progressStatus < progressMile) {
+                        progressStatus += 1;
+                        handler.post(new Runnable() {
+                            public void run() {
+                                progressBarMile.setProgress(progressStatus);
+
+                            }
+                        });
+                        try {
+                            Thread.sleep(400);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }).start();
+
+            new Thread(new Runnable() {
+                public void run() {
+                    while (progressStatus < progressMin) {
+                        progressStatus += 1;
+                        handler.post(new Runnable() {
+                            public void run() {
+                                progressBarMin.setProgress(progressStatus);
+
+                            }
+                        });
+                        try {
+                            Thread.sleep(400);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }).start();
+            new Thread(new Runnable() {
+                public void run() {
+                    while (progressStatus < progressCal) {
+                        progressStatus += 1;
+                        handler.post(new Runnable() {
+                            public void run() {
+                                progressBarCal.setProgress(progressStatus);
+
+                            }
+                        });
+                        try {
+                            Thread.sleep(400);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }).start();
+            new Thread(new Runnable() {
+                public void run() {
+                    while (progressStatus < progressStep) {
+                        progressStatus += 1;
+                        handler.post(new Runnable() {
+                            public void run() {
+                                progressBarStep.setProgress(progressStatus);
+
+                            }
+                        });
+                        try {
+                            Thread.sleep(400);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }).start();
+
         }
     }
 }

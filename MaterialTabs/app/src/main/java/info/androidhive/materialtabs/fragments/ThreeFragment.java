@@ -31,7 +31,7 @@ import info.androidhive.materialtabs.R;
 public class ThreeFragment extends Fragment{
     public static final String MyPREFERENCES = "TokenStore" ;
 
-  static  int [] rate = new int[30];
+    int [] rate = new int[30];
     public ThreeFragment() {
         // Required empty public constructor
     }
@@ -135,7 +135,7 @@ public class ThreeFragment extends Fragment{
 
                 }
 
-                System.out.println("30 day " + rate[0]);
+                System.out.println("30 day " + rate);
 
 
 
