@@ -76,6 +76,15 @@ public class CustomViewIconTextTabsActivity extends AppCompatActivity {
         {
 
         }
+
+
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         Intent intent = getIntent();
 
 // check if this intent is started via custom scheme link
@@ -93,9 +102,6 @@ public class CustomViewIconTextTabsActivity extends AppCompatActivity {
         basicAuth();
 
         new initAuth().execute();
-
-
-
     }
 
     /**

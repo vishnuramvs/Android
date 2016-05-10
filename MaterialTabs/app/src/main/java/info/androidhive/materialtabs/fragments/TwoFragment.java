@@ -94,7 +94,7 @@ public class TwoFragment extends Fragment{
                     }
                 });
             }
-        }, 0, 60000*2);//timer for 3 min
+        }, 0, 20000);//timer for 3 min
 
 
 

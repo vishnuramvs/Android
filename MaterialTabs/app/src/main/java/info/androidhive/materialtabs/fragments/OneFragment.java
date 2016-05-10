@@ -95,7 +95,7 @@ public class OneFragment extends Fragment{
                     }
                 });
             }
-                    },0,60000*2);
+                    },0,20000);
 
 
 
@@ -241,7 +241,7 @@ public class OneFragment extends Fragment{
 
             System.out.println("temp"+temperature);
             PieChart mPieChart = (PieChart)getView().findViewById(R.id.piechart);
-            if(temperature<70) {
+            if(temperature<80) {
                 mPieChart.addPieSlice(new PieModel("HeartRate", temperature, Color.parseColor("#FE6DA8")));
                 mPieChart.addPieSlice(new PieModel("HeartRate", 50, Color.parseColor("#56B7F1")));
             }
@@ -251,7 +251,7 @@ public class OneFragment extends Fragment{
                 mPieChart.startAnimation();
             }
 
-            if(temperature>70)
+            if(temperature>50)
             {
 
                 try {
@@ -263,20 +263,20 @@ public class OneFragment extends Fragment{
 
                 }
 
-                long pattern[] = { 0, 100, 200, 300, 400 };
-                vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-                vibrator.vibrate(pattern, 0);
-
-                NotificationCompat.Builder mBuilder =
-                        new NotificationCompat.Builder(getActivity())
-                                .setContentTitle("My notification")
-                                .setContentText("Heart Limit exceeded");
-
-
-                NotificationManager mNotifyMgr =
-                        (NotificationManager)getActivity().getSystemService(getContext().NOTIFICATION_SERVICE);
-// Builds the notification and issues it.
-                mNotifyMgr.notify(001, mBuilder.build());
+//                long pattern[] = { 0, 100, 200, 300, 400 };
+//                vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+//                vibrator.vibrate(pattern, 0);
+//
+//                NotificationCompat.Builder mBuilder =
+//                        new NotificationCompat.Builder(getActivity())
+//                                .setContentTitle("My notification")
+//                                .setContentText("Heart Limit exceeded");
+//
+//
+//                NotificationManager mNotifyMgr =
+//                        (NotificationManager)getActivity().getSystemService(getContext().NOTIFICATION_SERVICE);
+//// Builds the notification and issues it.
+//                mNotifyMgr.notify(1, mBuilder.build());
 
             }
 
