@@ -18,7 +18,7 @@
         android:theme="@style/MyMaterialTheme">
         <activity
             android:name=".activity.CustomViewIconTextTabsActivity"
-            android:label="@string/title_activity_custom_view_icon_text_tabs"
+            android:label="HealthKit"
             android:parentActivityName=".activity.CustomViewIconTextTabsActivity"
             android:supportsRtl="true">
             <intent-filter>
@@ -31,14 +31,21 @@
                     android:host="prabhu"
                     android:scheme="myapp" />
 
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login">
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+
     </application>
 
 </manifest>

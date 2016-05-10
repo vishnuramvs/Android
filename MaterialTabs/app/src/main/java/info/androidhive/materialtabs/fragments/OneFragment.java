@@ -24,10 +24,14 @@ import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
@@ -36,7 +40,9 @@ import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -45,13 +51,13 @@ import info.androidhive.materialtabs.activity.CustomViewIconTextTabsActivity;
 
 
 public class OneFragment extends Fragment{
-
+    HttpClient httpclient = new DefaultHttpClient();
     public static final String MyPREFERENCES = "TokenStore" ;
     TextView statusActivity;
     public Vibrator vibrator;
     private Timer autoUpdate;
 
-    static int temperature=0,cal=0;
+    static int temperature=0,cal=0,stat=0;
 
     public OneFragment() {
         // Required empty public constructor
@@ -114,7 +120,7 @@ public class OneFragment extends Fragment{
 
             System.out.println(currentTime);
 
-            HttpClient httpclient = new DefaultHttpClient();
+
             HttpGet httpGet = new HttpGet("https://api.fitbit.com/1/user/-/activities/heart/date/2016-05-02/1d/1min/time/" + currentTime + "/" + currentTime + ".json");
 
 // Add Headers
@@ -158,10 +164,10 @@ public class OneFragment extends Fragment{
 
                 temperature=Integer.parseInt(value.getString("value"));
 
-
+//get calorie
                 HttpGet httpGet1 = new HttpGet("https://api.fitbit.com/1/user/-/activities/calories/date/2016-05-02/1d/1min/time/" + currentTime + "/" + currentTime + ".json");
                  httpGet1.addHeader("Authorization", code);
-                  httpGet.addHeader("key2", "value2");
+                 // httpGet.addHeader("key2", "value2");
                    HttpResponse response1 = httpclient.execute(httpGet1);
                   HttpEntity entity1 = response1.getEntity();
                  String responseString1 = EntityUtils.toString(entity1, "UTF-8");
@@ -172,6 +178,12 @@ public class OneFragment extends Fragment{
                  JSONObject valueCal = data1.getJSONObject(0);
                  System.out.println("valueCal" + (int)Float.parseFloat(valueCal.getString("value")));
                    cal=(int)Float.parseFloat(valueCal.getString("value"));
+
+
+    //post to remote db
+
+
+
             } catch (Exception e) {
 // TODO Auto-generated catch block
             }
@@ -186,11 +198,46 @@ public class OneFragment extends Fragment{
             if(cal>12)
             {
                 statusActivity.setText("Running");
+                stat=1;
             }
             else
             {
                 statusActivity.setText("Resting");
+                stat=0;
             }
+
+
+
+           try
+           {
+
+
+
+               HttpPost post = new HttpPost("http://ec2-54-153-12-179.us-west-1.compute.amazonaws.com:3001/heartrate/getThreshold");
+
+               // add header
+
+
+               List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+               urlParameters.add(new BasicNameValuePair("id", "1"));
+
+
+               post.setEntity(new UrlEncodedFormEntity(urlParameters));
+
+               HttpResponse response = httpclient.execute(post);
+
+               HttpEntity entity1 = response.getEntity();
+               String responseString1 = EntityUtils.toString(entity1, "UTF-8");
+
+               System.out.println("responsekkkkk"+responseString1);
+
+           }catch (Exception e)
+           {
+
+           }
+
+
+
 
             System.out.println("temp"+temperature);
             PieChart mPieChart = (PieChart)getView().findViewById(R.id.piechart);

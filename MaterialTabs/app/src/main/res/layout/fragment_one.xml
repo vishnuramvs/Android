@@ -15,19 +15,34 @@
         app:egLegendTextSize="18sp"
         app:egUsePieRotation="true"
         app:egValueTextSize="36sp"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/activity"
+        android:layout_marginTop="-30dp"
         android:layout_centerHorizontal="true" />
 
 
     <TextView
-        android:layout_width="130sp"
+        android:layout_width="220sp"
         android:layout_height="60sp"
         android:text="Activity"
         android:id="@+id/textView"
-        android:textSize="@dimen/abc_text_size_display_1_material"
-        android:layout_above="@+id/activity"
-        android:layout_alignRight="@+id/textView12"
-        android:layout_alignEnd="@+id/textView12" />
+        android:textSize="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/textView14"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="105dp"
+        android:layout_toLeftOf="@+id/textView14" />
+
+    <TextView
+        android:layout_width="130sp"
+        android:layout_height="60sp"
+        android:text="Running"
+        android:id="@+id/activity"
+        android:textSize="25dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -36,6 +51,7 @@
         android:id="@+id/textView12"
         android:textSize="30dp"
         android:layout_below="@+id/piechart"
+        android:layout_marginTop="-10dp"
         android:layout_centerHorizontal="true" />
 
     <TextView
@@ -78,15 +94,7 @@
         android:layout_alignRight="@+id/textView12"
         android:layout_alignEnd="@+id/textView12" />
 
-    <TextView
-        android:layout_width="130sp"
-        android:layout_height="60sp"
-        android:text="Running"
-        android:id="@+id/activity"
-        android:textSize="@dimen/abc_text_size_display_1_material"
-        android:layout_above="@+id/piechart"
-        android:layout_alignLeft="@+id/textView12"
-        android:layout_alignStart="@+id/textView12" />
+
 
 
 </RelativeLayout>

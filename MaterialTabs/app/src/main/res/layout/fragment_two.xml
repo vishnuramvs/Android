@@ -13,7 +13,7 @@
         android:id="@+id/textView11"
         android:layout_above="@+id/imageView"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="5dp"
         android:textSize="30dp" />
 
 
@@ -33,7 +33,7 @@
         android:secondaryProgress="@android:integer/config_shortAnimTime"
         android:theme="@style/Base.Animation.AppCompat.DropDownUp"
         android:maxHeight="50dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="130dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -41,7 +41,7 @@
         android:layout_width="80dip"
         android:layout_height="80dip"
         android:id="@+id/imageView"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="15dp"
         android:src="@drawable/steps"
         android:layout_alignBottom="@+id/StepProgress"
         android:layout_alignLeft="@+id/StepProgress"
@@ -91,14 +91,14 @@
         android:layout_below="@+id/StepProgress"
         android:layout_alignLeft="@+id/StepProgress"
         android:layout_alignStart="@+id/StepProgress"
-        android:layout_marginTop="80dp" />
+        android:layout_marginTop="55dp" />
 
     <ImageView
         android:layout_width="80dip"
         android:layout_height="80dip"
         android:id="@+id/imageView2"
         android:src="@drawable/miles"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="15dp"
         android:layout_alignBottom="@+id/mileProgress"
         android:layout_alignLeft="@+id/mileProgress"
         android:layout_alignStart="@+id/mileProgress" />
@@ -145,14 +145,14 @@
         android:layout_below="@+id/mileProgress"
         android:layout_alignLeft="@+id/mileProgress"
         android:layout_alignStart="@+id/mileProgress"
-        android:layout_marginTop="80dp" />
+        android:layout_marginTop="55dp" />
 
     <ImageView
         android:layout_width="80dip"
         android:layout_height="80dip"
         android:id="@+id/imageView3"
         android:src="@drawable/burn"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="15dp"
         android:layout_alignBottom="@+id/progressBar3"
         android:layout_alignLeft="@+id/progressBar3"
         android:layout_alignStart="@+id/progressBar3" />
@@ -200,14 +200,14 @@
         android:layout_below="@+id/progressBar3"
         android:layout_alignLeft="@+id/progressBar3"
         android:layout_alignStart="@+id/progressBar3"
-        android:layout_marginTop="80dp" />
+        android:layout_marginTop="55dp" />
 
     <ImageView
         android:layout_width="80dip"
         android:layout_height="80dip"
         android:id="@+id/imageView4"
         android:src="@drawable/time"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="19dp"
         android:layout_alignBottom="@+id/progressBar4"
         android:layout_alignLeft="@+id/progressBar4"
         android:layout_alignStart="@+id/progressBar4" />
